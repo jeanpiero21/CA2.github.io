@@ -1,0 +1,21 @@
+{
+  "features": [
+    "Age",
+    "StudyTimeWeekly",
+    "Absences",
+    "Tutoring",
+    "ParentalSupport"
+  ],
+  "coef": [
+    0.028792187353488794,
+    -0.09926436783920209,
+    0.237307847643593,
+    0.152105465475802,
+    0.1869190039828954
+  ],
+  "intercept": 2.6021809926205206,
+  "standardize": false,
+  "mean": {},
+  "std": {},
+  "risk_threshold": 2.0
+}

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Predictor de Rendimiento Académico</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header>
+    <h1>📊 Predictor de Rendimiento Académico</h1>
+    <p>Interfaz 100% front-end (HTML/CSS/JS). Estima el GPA con tu regresión lineal y dos vistas: Estudiante y Coordinador.</p>
+  </header>
+
+  <div class="wrap">
+    <div class="tabs">
+      <button class="tab active" data-tab="student">Estudiante</button>
+      <button class="tab" data-tab="coord">Coordinador</button>
+      <button class="tab" data-tab="config">Configurar modelo</button>
+    </div>
+
+    <!-- Estudiante -->
+    <section id="student" class="grid two">
+      <div class="card">
+        <h2>Datos del estudiante</h2>
+        <div class="row">
+          <div>
+            <label>Edad</label>
+            <input id="Age" type="range" min="15" max="30" step="1" value="18" oninput="document.querySelector('#AgeOut').value=this.value">
+            <input id="AgeOut" type="number" min="15" max="30" step="1" value="18">
+          </div>
+          <div>
+            <label>Horas de estudio/semana</label>
+            <input id="StudyTimeWeekly" type="range" min="0" max="60" step="1" value="10" oninput="document.querySelector('#StudyOut').value=this.value">
+            <input id="StudyOut" type="number" min="0" max="60" step="1" value="10">
+          </div>
+          <div>
+            <label>Ausencias</label>
+            <input id="Absences" type="range" min="0" max="100" step="1" value="5" oninput="document.querySelector('#AbsOut').value=this.value">
+            <input id="AbsOut" type="number" min="0" max="100" step="1" value="5">
+          </div>
+          <div>
+            <label>Tutoría</label>
+            <select id="Tutoring"><option value="0">No</option><option value="1">Sí</option></select>
+          </div>
+          <div>
+            <label>Apoyo Parental (0–4)</label>
+            <input id="ParentalSupport" type="number" min="0" max="4" step="1" value="2">
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn primary" id="predictBtn">Predecir GPA</button>
+          <span class="muted">Umbral riesgo: <span class="pill" id="thrPill"></span></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Resultado</h2>
+        <p id="predOut" class="muted">Mueve los controles y haz clic en <b>Predecir GPA</b>.</p>
+        <div id="advice"></div>
+      </div>
+    </section>
+
+    <!-- Coordinador -->
+    <section id="coord" class="grid two" style="display:none">
+      <div class="card">
+        <h2>Ingresar datos (Coordinador)</h2>
+        <div class="row">
+          <div>
+            <label>Edad</label>
+            <input id="CAge" type="number" min="15" max="30" value="18">
+          </div>
+          <div>
+            <label>Horas de estudio/semana</label>
+            <input id="CStudyTimeWeekly" type="number" min="0" max="60" value="10">
+          </div>
+          <div>
+            <label>Ausencias</label>
+            <input id="CAbsences" type="number" min="0" max="100" value="5">
+          </div>
+          <div>
+            <label>Tutoría</label>
+            <select id="CTutoring"><option value="0">No</option><option value="1">Sí</option></select>
+          </div>
+          <div>
+            <label>Apoyo Parental (0–4)</label>
+            <input id="CParentalSupport" type="number" min="0" max="4" value="2">
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn primary" id="predictCoordBtn">Agregar predicción</button>
+          <button class="btn" id="clearCoordBtn">Limpiar lista</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Predicciones coordinador</h2>
+        <p class="muted">Tabla acumulada de estudiantes evaluados.</p>
+        <table id="coordTable" style="display:none">
+          <thead>
+            <tr>
+              <th>#</th><th>Edad</th><th>Estudio</th><th>Ausencias</th>
+              <th>Tutoría</th><th>Apoyo</th><th>GPA</th><th>Riesgo</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Config -->
+    <section id="config" class="grid" style="display:none">
+      <div class="card">
+        <h2>Configurar modelo</h2>
+        <p class="muted">Edita en caliente: cambia features/coef/intercept/umbral y aplica.</p>
+        <textarea id="cfgBox"></textarea>
+        <div class="actions">
+          <button class="btn primary" id="applyCfg">Aplicar configuración</button>
+          <a id="downloadCfg" class="btn" href="#">Descargar JSON</a>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Estado</h2>
+        <p class="muted" id="modelState"></p>
+        <code class="muted mono" id="modelPreview"></code>
+      </div>
+    </section>
+
+    <div class="footer">Hecho con ❤️ para GitHub Pages. No requiere backend.</div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
